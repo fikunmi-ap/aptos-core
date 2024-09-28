@@ -16,25 +16,29 @@ fn main() {
     let check_correctness = false;
 
     let mut measurements = Vec::new();
-    let concurrency_level = num_cpus::get();
+    let concurrency_levels = [1, 2, 4, 8, 16];
 
     for block_size in txns {
         for num_accounts in acts {
-            let mut times = bencher.blockstm_benchmark(
-                num_accounts,
-                block_size,
-                num_warmups,
-                num_runs,
-                concurrency_level,
-                check_correctness,
-            );
-            times.sort();
-            measurements.push(times);
+            for concurrency_level in concurrency_levels{
+                let mut times = bencher.blockstm_benchmark(
+                    num_accounts,
+                    block_size,
+                    num_warmups,
+                    num_runs,
+                    concurrency_level,
+                    check_correctness,
+                );
+                times.sort();
+                measurements.push(times);
+            }
         }
     }
+
     if check_correctness {
         println!("\nParallel execution output same as sequential!\n");
     }
+    
     println!("concurrency_level = {}", concurrency_level);
 
     let mut i = 0;
