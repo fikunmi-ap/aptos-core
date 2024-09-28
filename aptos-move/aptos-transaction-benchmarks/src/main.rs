@@ -42,18 +42,20 @@ fn main() {
     let mut i = 0;
     for block_size in txns {
         for num_accounts in acts {
-            println!(
-                "PARAMS: num_account = {}, block_size = {}",
-                num_accounts, block_size
-            );
-            println!("TPS: {:?}", measurements[i]);
-            let mut sum = 0;
-            for m in &measurements[i] {
-                sum += m;
+            for concurrency_level in concurrency_levels {
+                println!(
+                    "PARAMS: num_account = {}, block_size = {}, num_threads = {}",
+                    num_accounts, block_size, concurrency_level,
+                );
+                println!("TPS: {:?}", measurements[i]);
+                let mut sum = 0;
+                for m in &measurements[i] {
+                    sum += m;
+                }
+                println!("AVG TPS = {:?}", sum / measurements[i].len());
+                i += 1;
             }
-            println!("AVG TPS = {:?}", sum / measurements[i].len());
-            i += 1;
+            println!();
         }
-        println!();
     }
 }
