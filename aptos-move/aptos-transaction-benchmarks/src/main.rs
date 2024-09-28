@@ -38,8 +38,6 @@ fn main() {
     if check_correctness {
         println!("\nParallel execution output same as sequential!\n");
     }
-    
-    println!("concurrency_level = {}", concurrency_level);
 
     let mut i = 0;
     for block_size in txns {
